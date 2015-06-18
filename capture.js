@@ -167,9 +167,10 @@ function upload(uploadFile) {
     canvas.toBlob(function(snapshot){
       // JavaScript SDK doesn't support POSTing File objects yet,
       // so we'll construct our own multipart/form-data HTTP request
+      date = new Date();
       var fd = new FormData();
       fd.append('oauth_token', SC.accessToken());
-      fd.append("track[title]", Date.now());
+      fd.append("track[title]", date.toString());
       fd.append("track[asset_data]", uploadFile);
       fd.append("track[artwork_data]", snapshot);
 
