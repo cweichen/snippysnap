@@ -1,4 +1,4 @@
-(function() {
+//(function() {
   // The width and height of the captured photo. We will set the
   // width to the value defined here, but the height will be
   // calculated based on the aspect ratio of the input stream.
@@ -18,6 +18,10 @@
   var canvas = null;
   var photo = null;
   var startbutton = null;
+  var context = null;
+
+  var mediaRecorder = null;
+  var chunks = [];
 
   function startup() {
 
@@ -51,6 +55,25 @@
       },
       function(stream) {
         if (navigator.mozGetUserMedia) {
+          mediaRecorder = new MediaRecorder(stream);
+          mediaRecorder.ondataavailable = function(evt) {
+            chunks.push(evt.data);
+          };
+
+          mediaRecorder.onerror = function(evt) {
+            console.log('onerror fired');
+          };
+
+          mediaRecorder.onstop = function(evt) {
+            console.log('onstop fired');
+            var blob = new Blob(chunks, { 'type' : 'audio/ogg; codecs=opus' });
+            $('#status').text("Uploading...");
+            upload(blob);
+          };
+
+          mediaRecorder.onwarning = function(evt) {
+            console.log('onwarning fired');
+          };
           video.mozSrcObject = stream;
         } else {
           var vendorURL = window.URL || window.webkitURL;
@@ -143,43 +166,12 @@
 
   // record audio from browser
   function record() {
-    // ask for permission and start recording
-    navigator.getMedia({audio: true}, function(localMediaStream){
-      mediaStream = localMediaStream;
-
-      // create a stream source to pass to Recorder.js
-      var mediaStreamSource = context.createMediaStreamSource(localMediaStream);
-
-      // create new instance of Recorder.js using the mediaStreamSource
-      rec = new Recorder(mediaStreamSource, {
-        // pass the path to recorderWorker.js file here
-        workerPath: 'vendor/Recorder.js/recorderWorker.js'
-      });
-
-      // start recording
-      rec.record();
-
-      $('#status').text("Recording...");
-    }, function(err){
-      console.log('Browser not supported');
-    });
+    $('#status').text("Recording...");
+    mediaRecorder.start();
   }
 
   function finish() {
-    // stop the media stream
-    mediaStream.stop();
-
-    // stop Recorder.js
-    rec.stop();
-
-    // export to WAV and upload to SoundCloud
-    rec.exportWAV(function(blob){
-      rec.clear();
-
-      // Upload to SoundCloud
-      $('#status').text("Uploading...");
-      upload(blob);
-    });
+    mediaRecorder.stop();
   }
 
   // upload file to SoundCloud
@@ -200,9 +192,6 @@
         fd.append("track[asset_data]", uploadFile);
         fd.append("track[artwork_data]", snapshot);
 
-        console.log(fd);
-        console.log('uploading');
-
         $.ajax({
             url: 'https://api.soundcloud.com/tracks',
             type: 'POST',
@@ -218,11 +207,10 @@
         });
 
       });
-
+    }
   }
-}
 
   // Set up our event listener to run the startup process
   // once loading is complete.
   window.addEventListener('load', startup, false);
-})();
+//})();
