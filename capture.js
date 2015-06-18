@@ -25,8 +25,8 @@ function startup() {
 
   // Initialize SoundCloud JavaScript SDK
   SC.initialize({
-    client_id: "a92c8411b58c610219e961daf5d786fe",
-    redirect_uri: 'http://localhost:4000/callback.html'
+    client_id: "ef158827fe147ffac35e7442a4a0a03b",
+    redirect_uri: "http://cweichen.github.io/snippysnap/callback.html"
   });
 
   // Get audio context required for HTML 5 audio recording
