@@ -1,28 +1,13 @@
 #video {
-  width:320px;
-  height:240px;
-}
-
-#photo {
-  width:320px;
-  height:240px;
+  width:640;
+  height:480;
 }
 
 #canvas {
   display:none;
 }
 
-.camera {
-  width: 340px;
-  display:inline-block;
-}
-
-.output {
-  width: 340px;
-  display:inline-block;
-}
-
-#startbutton {
+#connect {
   display:block;
   position:relative;
   margin-left:auto;
