@@ -115,7 +115,7 @@ function startup() {
     record();
   }, false);
 
-  video.addEventListener('touchleave', function(ev){
+  video.addEventListener('touchend', function(ev){
     ev.preventDefault();
     console.log('touchleave');
     finish();
