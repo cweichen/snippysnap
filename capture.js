@@ -20,13 +20,24 @@
   var startbutton = null;
 
   function startup() {
+
+    // Initialize SoundCloud JavaScript SDK
+    SC.initialize({
+      client_id: "a92c8411b58c610219e961daf5d786fe",
+      redirect_uri: 'http://localhost:4000/callback.html'
+    });
+
+    // Get audio context required for HTML 5 audio recording
+    var Context = window.AudioContext || window.webkitAudioContext;
+    context = new Context();
+
     video = document.getElementById('video');
     canvas = document.getElementById('canvas');
     photo = document.getElementById('photo');
+    startbutton = document.getElementById('video');
     connectbutton = document.getElementById('connect');
     recordbutton = document.getElementById('record');
     uploadbutton = document.getElementById('upload');
-    startbutton = document.getElementById('startbutton');
 
     navigator.getMedia = ( navigator.getUserMedia ||
                            navigator.webkitGetUserMedia ||
@@ -36,7 +47,7 @@
     navigator.getMedia(
       {
         video: true,
-        audio: false
+        audio: true
       },
       function(stream) {
         if (navigator.mozGetUserMedia) {
@@ -133,7 +144,7 @@
   // record audio from browser
   function record() {
     // ask for permission and start recording
-    navigator.getUserMedia({audio: true}, function(localMediaStream){
+    navigator.getMedia({audio: true}, function(localMediaStream){
       mediaStream = localMediaStream;
 
       // create a stream source to pass to Recorder.js
