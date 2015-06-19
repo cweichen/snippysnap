@@ -58,7 +58,7 @@ function startup() {
         video.mozSrcObject = stream;
 
         // Connect the audio stream to MediaRecorder
-        mediaRecorder = new MediaRecorder(stream);
+        mediaRecorder = new MediaRecorder(stream, , {mimeType: "audio/ogg; codecs=vorbis"});
         mediaRecorder.ondataavailable = function(evt) {
           chunks.push(evt.data);
         };
@@ -69,7 +69,7 @@ function startup() {
 
         mediaRecorder.onstop = function(evt) {
           console.log('onstop fired');
-          var blob = new Blob(chunks, { 'type' : 'audio/webm; codecs=webm' });
+          var blob = new Blob(chunks, { 'type' : 'audio/ogg; codecs=vorbis' });
           $('#status').text("Uploading...");
           upload(blob);
         };
