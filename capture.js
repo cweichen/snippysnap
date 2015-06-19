@@ -15,11 +15,12 @@ var streaming = false;
 
 var video = null;
 var canvas = null;
-//  var startbutton = null;
 var context = null;
 
 var mediaRecorder = null;
 var chunks = [];
+
+var recjs = null;
 
 function startup() {
 
@@ -35,8 +36,6 @@ function startup() {
 
   video = document.getElementById('video');
   canvas = document.getElementById('canvas');
-//  photo = document.getElementById('photo');
-//  startbutton = document.getElementById('video');
   connectbutton = document.getElementById('connect');
   recordbutton = document.getElementById('record');
   uploadbutton = document.getElementById('upload');
@@ -81,6 +80,11 @@ function startup() {
       } else {
         var vendorURL = window.URL || window.webkitURL;
         video.src = vendorURL.createObjectURL(stream);
+
+        // create a stream source to pass to Recorder.js
+        var mediaStreamSource = context.createMediaStreamSource(stream);
+        // create new instance of Recorder.js using the mediaStreamSource
+        recjs = new Recorderjs(mediaStreamSource);
       }
       video.play();
       video.volume = 0;
@@ -148,16 +152,32 @@ function connect() {
 // record audio from browser
 function record() {
   $('#status').text("Recording...");
-  mediaRecorder.start();
+  if (navigator.mozGetUserMedia){
+    mediaRecorder.start();
+  }
+  else {
+    recjs.record();
+  }
 }
 
 function finish() {
-  mediaRecorder.stop();
+  if (navigator.mozGetUserMedia){
+    mediaRecorder.stop();
+  }
+  else {
+    recjs.stop();
+
+    // export to WAV and upload to SoundCloud
+    recjs.exportWAV(function(blob){
+      recjs.clear();
+      // Upload to SoundCloud
+      upload(blob);
+    });
+  }
 }
 
 // upload file to SoundCloud
 function upload(uploadFile) {
-
   var context = canvas.getContext('2d');
   if (width && height) {
     canvas.width = width;
@@ -187,7 +207,6 @@ function upload(uploadFile) {
           + '">'
           + track.permalink_url + '</a>');
       });
-
     });
   }
 }
