@@ -69,7 +69,7 @@ function startup() {
 
         mediaRecorder.onstop = function(evt) {
           console.log('onstop fired');
-          var blob = new Blob(chunks, { 'type' : 'audio/ogg; codecs=opus' });
+          var blob = new Blob(chunks, { 'type' : 'audio/webm; codecs=webm' });
           $('#status').text("Uploading...");
           upload(blob);
         };
