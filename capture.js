@@ -2,7 +2,7 @@
 // width to the value defined here, but the height will be
 // calculated based on the aspect ratio of the input stream.
 
-var width = 320;    // We will scale the photo width to this
+var width = 400;    // We will scale the photo width to this
 var height = 0;     // This will be computed based on the input stream
 
 // |streaming| indicates whether or not we're currently streaming
@@ -69,7 +69,7 @@ function startup() {
         mediaRecorder.onstop = function(evt) {
           console.log('onstop fired');
           var blob = new Blob(chunks, { 'type' : 'audio/wav' });
-          $('#status').text("Uploading...");
+          $('#connect').text("Uploading...");
           upload(blob);
         };
 
@@ -119,7 +119,7 @@ function startup() {
     record();
   }, false);
 
-  video.addEventListener('touchend', function(ev){
+  video.addEventListener('touchleave', function(ev){
     ev.preventDefault();
     console.log('touchleave');
     finish();
@@ -145,13 +145,13 @@ function startup() {
 function connect() {
   // Connect to user's account with OAuth2
   SC.connect(function() {
-    $('#status').text("Connected");
+    $('#connect').text("Connected");
   });
 }
 
 // record audio from browser
 function record() {
-  $('#status').text("Recording...");
+  $('#connect').text("Recording...");
   if (navigator.mozGetUserMedia){
     mediaRecorder.start();
   }
@@ -201,7 +201,7 @@ function upload(uploadFile) {
           processData: false,
           contentType: false,
       }).done(function(track) {
-        $('#status').html(
+        $('#connect').html(
           '<a target="_blank" href="'
           + track.permalink_url
           + '">'
