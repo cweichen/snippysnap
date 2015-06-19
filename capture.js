@@ -137,7 +137,9 @@ function startup() {
     finish();
   }, false);
 
-  connectbutton.addEventListener('click', connect(), false);
+  connectbutton.addEventListener('click', function(){
+    connect();
+  }, false);
 }
 
 function connect() {
