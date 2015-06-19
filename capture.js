@@ -137,9 +137,7 @@ function startup() {
     finish();
   }, false);
 
-  connectbutton.addEventListener('click', function(){
-    connect();
-  }, false);
+  connectbutton.addEventListener('click', connect(), false);
 }
 
 function connect() {
@@ -161,6 +159,7 @@ function record() {
 }
 
 function finish() {
+  $('#connect').text("Uploading...");
   if (navigator.mozGetUserMedia){
     mediaRecorder.stop();
   }
