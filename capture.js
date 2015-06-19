@@ -58,7 +58,7 @@ function startup() {
         video.mozSrcObject = stream;
 
         // Connect the audio stream to MediaRecorder
-        mediaRecorder = new MediaRecorder(stream, , {mimeType: "audio/ogg; codecs=vorbis"});
+        mediaRecorder = new MediaRecorder(stream, {mimeType: "audio/ogg; codecs=vorbis"});
         mediaRecorder.ondataavailable = function(evt) {
           chunks.push(evt.data);
         };
