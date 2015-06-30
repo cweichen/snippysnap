@@ -51,7 +51,8 @@ function startup() {
       audio: true
     },
     function(stream) {
-      if (navigator.mozGetUserMedia) {
+      if (false) {
+      // if (navigator.mozGetUserMedia) {
 
         // Connect the video stream to the video element
         video.mozSrcObject = stream;
@@ -152,7 +153,8 @@ function connect() {
 // record audio from browser
 function record() {
   $('#connect').text("Recording...");
-  if (navigator.mozGetUserMedia){
+  if (false) {
+  // if (navigator.mozGetUserMedia){
     mediaRecorder.start();
   }
   else {
@@ -162,7 +164,8 @@ function record() {
 
 function finish() {
   $('#connect').text("Uploading...");
-  if (navigator.mozGetUserMedia){
+  if (false) {
+  // if (navigator.mozGetUserMedia){
     mediaRecorder.stop();
   }
   else {
