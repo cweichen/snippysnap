@@ -140,6 +140,8 @@ function startup() {
 
   connectbutton.addEventListener('click', function(){
     connect();
+    $(this).toggle();
+    $("#status").toggle();
   }, false);
 }
 
@@ -152,7 +154,7 @@ function connect() {
 
 // record audio from browser
 function record() {
-  $('#connect').text("Recording...");
+  $('#status').text("Recording...");
   if (false) {
   // if (navigator.mozGetUserMedia){
     mediaRecorder.start();
@@ -163,7 +165,7 @@ function record() {
 }
 
 function finish() {
-  $('#connect').text("Uploading...");
+  $('#status').text("Uploading...");
   if (false) {
   // if (navigator.mozGetUserMedia){
     mediaRecorder.stop();
@@ -205,11 +207,10 @@ function upload(uploadFile) {
           processData: false,
           contentType: false,
       }).done(function(track) {
-        $('#connect').html(
+        $('#status').html(
           '<a target="_blank" href="'
           + track.permalink_url
-          + '">'
-          + track.permalink_url + '</a>');
+          + '">View your snippysnap</a>');
       });
     });
   }

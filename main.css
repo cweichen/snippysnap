@@ -22,11 +22,26 @@
   background-color: rgba(0, 150, 0, 0.5);
   border: 1px solid rgba(255, 255, 255, 0.7);
   box-shadow: 0px 0px 1px 2px rgba(0, 0, 0, 0.2);
-  font-size: 80px;
+  font-size: 36px;
   font-family: "Lucida Grande", "Arial", sans-serif;
   color: rgba(255, 255, 255, 1.0);
   top:10px;
   z-index: 1000;
+}
+
+#status {
+  display:none;
+  position:absolute;
+  margin-left:12px;
+  margin-right:auto;
+  background-color: rgba(0, 150, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  box-shadow: 0px 0px 1px 2px rgba(0, 0, 0, 0.2);
+  font-size: 36px;
+  font-family: "Lucida Grande", "Arial", sans-serif;
+  color: rgba(255, 255, 255, 1.0);
+  top:10px;
+  z-index: 100;
 }
 
 .contentarea {
